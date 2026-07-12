@@ -1,0 +1,659 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: auth
+    description: Phone + OTP authentication
+  - name: wallet
+    description: Wallet balance and top-ups
+  - name: transactions
+    description: Transaction history
+  - name: transfers
+    description: Peer-to-peer money transfers
+  - name: contacts
+    description: Saved payees
+  - name: billers
+    description: Recharge and bill payment providers
+  - name: dashboard
+    description: Aggregated dashboard data
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /auth/request-otp:
+    post:
+      operationId: requestOtp
+      tags: [auth]
+      summary: Request a one-time login code for a phone number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OtpRequestInput"
+      responses:
+        "200":
+          description: OTP generated (simulated delivery)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OtpRequestResult"
+        "400":
+          description: Invalid phone number
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/verify-otp:
+    post:
+      operationId: verifyOtp
+      tags: [auth]
+      summary: Verify the one-time code and start a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OtpVerifyInput"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionInfo"
+        "400":
+          description: Invalid or expired code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/me:
+    get:
+      operationId: getCurrentSession
+      tags: [auth]
+      summary: Get the current logged-in user and wallet
+      responses:
+        "200":
+          description: Current session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionInfo"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: End the current session
+      responses:
+        "204":
+          description: Logged out
+
+  /wallet:
+    get:
+      operationId: getWallet
+      tags: [wallet]
+      summary: Get the current user's wallet balance
+      responses:
+        "200":
+          description: Wallet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wallet"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /wallet/add-money:
+    post:
+      operationId: addMoney
+      tags: [wallet]
+      summary: Simulate adding money to the wallet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddMoneyInput"
+      responses:
+        "200":
+          description: Money added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletMutationResult"
+        "400":
+          description: Invalid amount
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /transactions:
+    get:
+      operationId: listTransactions
+      tags: [transactions]
+      summary: List the current user's transactions, most recent first
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+      responses:
+        "200":
+          description: Transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Transaction"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /transactions/{id}:
+    get:
+      operationId: getTransaction
+      tags: [transactions]
+      summary: Get a single transaction by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Transaction
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /transfers:
+    post:
+      operationId: createTransfer
+      tags: [transfers]
+      summary: Send money to another user by phone number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransferInput"
+      responses:
+        "200":
+          description: Transfer completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletMutationResult"
+        "400":
+          description: Invalid transfer (insufficient balance, unknown recipient, self-transfer)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /users/lookup:
+    get:
+      operationId: lookupUser
+      tags: [transfers]
+      summary: Look up a user's public profile by phone number
+      parameters:
+        - name: phone
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Public user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicUser"
+        "404":
+          description: No user with that phone number
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /contacts:
+    get:
+      operationId: listContacts
+      tags: [contacts]
+      summary: List saved payees for the current user
+      responses:
+        "200":
+          description: Contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createContact
+      tags: [contacts]
+      summary: Save a new payee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInput"
+      responses:
+        "201":
+          description: Contact created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "400":
+          description: Invalid contact
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /contacts/{id}:
+    delete:
+      operationId: deleteContact
+      tags: [contacts]
+      summary: Remove a saved payee
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /billers:
+    get:
+      operationId: listBillers
+      tags: [billers]
+      summary: List available recharge and bill payment providers
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/BillerCategory"
+      responses:
+        "200":
+          description: Billers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Biller"
+
+  /recharge:
+    post:
+      operationId: createRecharge
+      tags: [billers]
+      summary: Pay a recharge or bill using a biller
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RechargeInput"
+      responses:
+        "200":
+          description: Payment completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletMutationResult"
+        "400":
+          description: Invalid recharge (unknown biller, insufficient balance)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Aggregated balance, recent activity, and spend breakdown
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+        "401":
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    User:
+      type: object
+      required: [id, phone, name, createdAt]
+      properties:
+        id: { type: integer }
+        phone: { type: string }
+        name: { type: string }
+        createdAt: { type: string, format: date-time }
+
+    PublicUser:
+      type: object
+      required: [name, phone]
+      properties:
+        name: { type: string }
+        phone: { type: string }
+
+    Wallet:
+      type: object
+      required: [balanceCents]
+      properties:
+        balanceCents: { type: integer }
+
+    SessionInfo:
+      type: object
+      required: [user, wallet]
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        wallet:
+          $ref: "#/components/schemas/Wallet"
+
+    OtpRequestInput:
+      type: object
+      required: [phone]
+      properties:
+        phone:
+          type: string
+          minLength: 6
+          maxLength: 15
+
+    OtpRequestResult:
+      type: object
+      required: [phone, otp, expiresInSeconds]
+      properties:
+        phone: { type: string }
+        otp:
+          type: string
+          description: Simulated OTP, shown directly since no real SMS gateway is connected in this demo.
+        expiresInSeconds: { type: integer }
+
+    OtpVerifyInput:
+      type: object
+      required: [phone, otp]
+      properties:
+        phone: { type: string }
+        otp: { type: string }
+        name:
+          type: ["string", "null"]
+          description: Optional display name to set on first login.
+
+    TransactionType:
+      type: string
+      enum: [add_money, transfer_out, transfer_in, recharge, bill_payment]
+
+    Transaction:
+      type: object
+      required: [id, type, amountCents, status, createdAt]
+      properties:
+        id: { type: integer }
+        type:
+          $ref: "#/components/schemas/TransactionType"
+        amountCents: { type: integer }
+        status: { type: string }
+        counterpartyName:
+          type: ["string", "null"]
+        counterpartyPhone:
+          type: ["string", "null"]
+        category:
+          type: ["string", "null"]
+        note:
+          type: ["string", "null"]
+        createdAt: { type: string, format: date-time }
+
+    WalletMutationResult:
+      type: object
+      required: [wallet, transaction]
+      properties:
+        wallet:
+          $ref: "#/components/schemas/Wallet"
+        transaction:
+          $ref: "#/components/schemas/Transaction"
+
+    AddMoneyInput:
+      type: object
+      required: [amountCents, method]
+      properties:
+        amountCents:
+          type: integer
+          minimum: 100
+        method:
+          type: string
+          enum: [upi, debit_card, credit_card, netbanking]
+
+    TransferInput:
+      type: object
+      required: [toPhone, amountCents]
+      properties:
+        toPhone: { type: string }
+        amountCents:
+          type: integer
+          minimum: 100
+        note:
+          type: ["string", "null"]
+
+    Contact:
+      type: object
+      required: [id, name, phone, createdAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        phone: { type: string }
+        nickname:
+          type: ["string", "null"]
+        createdAt: { type: string, format: date-time }
+
+    ContactInput:
+      type: object
+      required: [name, phone]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        phone:
+          type: string
+          minLength: 6
+        nickname:
+          type: ["string", "null"]
+
+    BillerCategory:
+      type: string
+      enum:
+        [
+          mobile_recharge,
+          dth,
+          electricity,
+          water,
+          gas,
+          broadband,
+          insurance,
+          loan_payment,
+        ]
+
+    Biller:
+      type: object
+      required: [id, category, name]
+      properties:
+        id: { type: string }
+        category:
+          $ref: "#/components/schemas/BillerCategory"
+        name: { type: string }
+
+    RechargeInput:
+      type: object
+      required: [billerId, accountNumber, amountCents]
+      properties:
+        billerId: { type: string }
+        accountNumber:
+          type: string
+          minLength: 1
+        amountCents:
+          type: integer
+          minimum: 100
+
+    CategorySpend:
+      type: object
+      required: [category, totalCents]
+      properties:
+        category: { type: string }
+        totalCents: { type: integer }
+
+    DashboardSummary:
+      type: object
+      required:
+        [
+          balanceCents,
+          totalAddedCents,
+          totalSpentCents,
+          recentTransactions,
+          spendByCategory,
+        ]
+      properties:
+        balanceCents: { type: integer }
+        totalAddedCents: { type: integer }
+        totalSpentCents: { type: integer }
+        recentTransactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Transaction"
+        spendByCategory:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategorySpend"

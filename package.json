@@ -1,0 +1,15 @@
+{
+  "name": "paywallet-source",
+  "private": true,
+  "packageManager": "pnpm@11.11.0",
+  "scripts": {
+    "dev:frontend": "pnpm --filter @workspace/smtech run dev",
+    "dev:server": "pnpm --filter @workspace/api-server run dev",
+    "build": "pnpm run typecheck && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/smtech run build",
+    "typecheck": "pnpm -r run typecheck"
+  },
+  "dependencies": {
+    "drizzle-zod": "^0.8.3",
+    "pg": "^8.22.0"
+  }
+}
