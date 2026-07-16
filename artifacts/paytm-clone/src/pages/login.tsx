@@ -1,81 +1,99 @@
 import { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 export default function Login() {
   const [mobile, setMobile] = useState("");
 
   const handleContinue = () => {
-    console.log(mobile);
+    console.log("Mobile:", mobile);
+  };
+
+  const handleGoogle = () => {
+    console.log("Google Sign In");
   };
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center"
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center items-center relative"
       style={{
         backgroundImage: "url('/images/login-bg.png')",
       }}
     >
-      <div className="w-full max-w-md px-8">
-        <div className="text-white mb-12">
-          <h1 className="text-5xl font-bold">AquaPay</h1>
-          <p className="text-xl opacity-80">
-            Simple. Secure. Seamless.
-          </p>
-        </div>
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/35" />
 
-        <div className="mt-72">
-          <h2 className="text-4xl font-bold text-white">
+      {/* Language */}
+      <div className="absolute top-8 right-8 z-10">
+        <button className="flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-md px-4 py-2 text-sm text-white hover:bg-white/30 transition">
+          English
+          <MdKeyboardArrowDown size={18} />
+        </button>
+      </div>
+
+      {/* Login Card */}
+      <div className="relative z-10 w-full max-w-md px-8">
+        <div className="mt-40">
+          <h1 className="text-4xl font-bold text-white">
             Welcome back
-          </h2>
+          </h1>
 
-          <p className="text-white/80 mb-8">
+          <p className="mt-2 text-white/80 text-lg">
             Login to your account
           </p>
 
-          <div className="flex rounded-2xl overflow-hidden border border-white/30 backdrop-blur-lg">
+          {/* Mobile Input */}
+          <div className="mt-10 flex items-center rounded-2xl border border-white/25 bg-white/15 backdrop-blur-xl overflow-hidden shadow-lg">
             <input
               type="tel"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               placeholder="Enter mobile number"
-              className="flex-1 bg-transparent text-white px-5 py-5 outline-none placeholder:text-white/60"
+              className="flex-1 bg-transparent px-5 py-5 text-white placeholder:text-white/70 outline-none"
             />
 
-            <div className="px-5 flex items-center text-white">
+            <div className="px-5 text-white font-semibold border-l border-white/20">
               +91
             </div>
           </div>
 
+          {/* Continue Button */}
           <button
             onClick={handleContinue}
-            className="w-full mt-6 py-5 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-xl"
+            className="mt-6 w-full rounded-2xl py-5 text-lg font-semibold text-white transition-all duration-300 hover:scale-[1.02] active:scale-95"
+            style={{
+              background:
+                "linear-gradient(90deg,#00B5FF,#007BFF)",
+            }}
           >
             Continue
           </button>
 
-          <div className="text-center text-white mt-10">
-            or continue with
-          </div>
-
-          <div className="flex justify-center gap-8 mt-6">
-            <button className="w-16 h-16 rounded-full bg-white/20 text-white">
-              G
-            </button>
-
-            <button className="w-16 h-16 rounded-full bg-white/20 text-white">
-              
-            </button>
-
-            <button className="w-16 h-16 rounded-full bg-white/20 text-white">
-              ☎
-            </button>
-          </div>
-
-          <div className="text-center mt-10 text-white">
-            New to AquaPay?
-            <span className="text-sky-400 font-semibold cursor-pointer ml-2">
-              Sign up
+          {/* Divider */}
+          <div className="flex items-center my-8">
+            <div className="flex-1 h-px bg-white/30" />
+            <span className="mx-4 text-white/70 text-sm">
+              OR
             </span>
+            <div className="flex-1 h-px bg-white/30" />
           </div>
+
+          {/* Google Button */}
+          <button
+            onClick={handleGoogle}
+            className="w-full flex items-center justify-center gap-3 rounded-2xl bg-white py-4 font-semibold text-gray-700 shadow-lg transition hover:bg-gray-100"
+          >
+            <FcGoogle size={24} />
+            Continue with Google
+          </button>
+
+          {/* Sign Up */}
+          <p className="mt-10 text-center text-white/80">
+            Don't have an account?
+            <span className="ml-2 cursor-pointer font-semibold text-cyan-300 hover:text-cyan-200">
+              Sign Up
+            </span>
+          </p>
         </div>
       </div>
     </div>
