@@ -9,7 +9,22 @@ try {
     target: ["node18"],
     outfile: "./dist/index.mjs",
     sourcemap: "external",
-    external: ["pino-pretty", "pg", "drizzle-zod"],
+    external: [
+      "pino-pretty", 
+      "pg", 
+      "drizzle-zod", 
+      "tty", 
+      "util", 
+      "os", 
+      "crypto", 
+      "path", 
+      "fs", 
+      "net", 
+      "stream", 
+      "http", 
+      "tls", 
+      "zlib"
+    ],
     logLevel: "info",
   });
 } catch (error) {
