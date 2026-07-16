@@ -1,6 +1,6 @@
 import { AppLayout } from "./components/layout";
 import { Dashboard } from "./pages/dashboard";
-import { Login } from "./pages/login";
+import Login from "./pages/login";
 import { useGetCurrentSession } from "@workspace/api-client-react";
 import { AddMoney } from "./pages/add-money";
 import { SendMoney } from "./pages/send-money";
