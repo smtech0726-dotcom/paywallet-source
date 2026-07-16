@@ -25,6 +25,9 @@ try {
       "tls", 
       "zlib"
     ],
+    banner: {
+      js: "import { createRequire } from 'module'; const require = createRequire(import.meta.url);",
+    },
     logLevel: "info",
   });
 } catch (error) {
