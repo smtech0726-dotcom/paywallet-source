@@ -3,31 +3,12 @@ import { build } from "esbuild";
 try {
   await build({
     entryPoints: ["./src/index.ts"],
-    bundle: true,
+    bundle: false,
     platform: "node",
     format: "esm",
-    target: ["node18"],
+    target: ["node22"],
     outfile: "./dist/index.mjs",
-    sourcemap: "external",
-    external: [
-      "pino-pretty", 
-      "pg", 
-      "drizzle-zod", 
-      "tty", 
-      "util", 
-      "os", 
-      "crypto", 
-      "path", 
-      "fs", 
-      "net", 
-      "stream", 
-      "http", 
-      "tls", 
-      "zlib"
-    ],
-    banner: {
-      js: "import { createRequire } from 'module'; const require = createRequire(import.meta.url);",
-    },
+    sourcemap: true,
     logLevel: "info",
   });
 } catch (error) {
