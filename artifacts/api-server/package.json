@@ -8,7 +8,7 @@
   "build": "echo \"No build required\"",
   "start": "tsx ./src/index.ts",
   "typecheck": "tsc -p tsconfig.json --noEmit"
-}
+},
   "dependencies": {
     "@workspace/api-zod": "workspace:*",
     "@workspace/db": "workspace:*",
