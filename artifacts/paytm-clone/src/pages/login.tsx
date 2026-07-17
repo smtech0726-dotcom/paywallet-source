@@ -20,18 +20,18 @@ export default function Login() {
     backgroundImage: "url('/long-pg.png')",
   }}
 >      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/35" />
+      <div className="absolute inset-0 bg-black/15" />
 
       {/* Language */}
       <div className="absolute top-8 right-8 z-10">
-        <button className="flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-md px-4 py-2 text-sm text-white hover:bg-white/30 transition">
+        <button className="flex items-center gap-1 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 px-4 py-2 text-sm text-white">
           English
           <MdKeyboardArrowDown size={18} />
         </button>
       </div>
 
       {/* Login Card */}
-      <div className="relative z-10 w-full max-w-md px-8">
+      <div className="relative z-10 w-full max-w-md px-8 flex flex-col justify-end min-h-screen pb-14">
         <div className="mt-40">
           <h1 className="text-4xl font-bold text-white">
             Welcome back
@@ -42,7 +42,7 @@ export default function Login() {
           </p>
 
           {/* Mobile Input */}
-          <div className="mt-10 flex items-center rounded-2xl border border-white/25 bg-white/15 backdrop-blur-xl overflow-hidden shadow-lg">
+          <div className="mt-10 flex items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl overflow-hidden shadow-xl focus-within:border-cyan-400">
             <input
               type="tel"
               value={mobile}
@@ -80,7 +80,7 @@ export default function Login() {
           {/* Google Button */}
           <button
             onClick={handleGoogle}
-            className="w-full flex items-center justify-center gap-3 rounded-2xl bg-white py-4 font-semibold text-gray-700 shadow-lg transition hover:bg-gray-100"
+            className="w-full flex items-center justify-center gap-3 rounded-2xl bg-white py-4 font-semibold text-gray-800 shadow-2xl transition hover:scale-[1.01]"
           >
             <FcGoogle size={24} />
             Continue with Google
