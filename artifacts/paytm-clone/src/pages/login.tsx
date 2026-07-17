@@ -29,7 +29,7 @@ const handleGoogle = () => {
     <img
       src="/long-pg.png"
       alt="Background"
-      className="absolute inset-0 w-full h-full object-cover"
+      className="absolute inset-0 w-full h-full object-contain bg-black"
     />
 
     {/* Overlay */}
@@ -118,5 +118,6 @@ const handleGoogle = () => {
 
     </div>
 
-  </div>
-);
+    </div>
+  );
+}
