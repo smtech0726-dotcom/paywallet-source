@@ -51,7 +51,6 @@ export default function Login() {
               Terms & Privacy Policy
               </div>
               </div>
-
-            </div>
- );
-}
+           </div>
+         );
+       }
