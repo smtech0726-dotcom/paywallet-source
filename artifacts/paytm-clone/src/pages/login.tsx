@@ -15,7 +15,7 @@ export default function Login() {
 
   return (
    <div
-  className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center items-center relative"
+  className="min-h-screen bg-cover bg-top bg-no-repeat flex justify-center items-center relative"
   style={{
     backgroundImage: "url('/long-pg.png')",
   }}
