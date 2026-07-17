@@ -6,10 +6,6 @@ export default function Login() {
   const [mobile, setMobile] = useState("");
 
   const handleContinue = () => {
-    console.log("Mobile:", mobile);
-  };
-
-  const handleContinue = () => {
   if (mobile.length !== 10) return;
 
   console.log("Mobile:", mobile);
@@ -51,24 +47,24 @@ export default function Login() {
           <label className="mb-3 block text-sm text-white/80">
   Mobile Number
 </label>
-          <div className="mt-10 flex items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl overflow-hidden shadow-xl transition-all focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-400/30">            <input
-             <input
-  type="tel"
-  inputMode="numeric"
-  autoComplete="tel"
-  maxLength={10}
-  value={mobile}
-  onChange={(e) =>
-    setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))
-  }
-  placeholder="Enter mobile number"
-  className="flex-1 bg-transparent px-5 py-5 text-white placeholder:text-white/70 outline-none"
-/>
-            <div className="px-5 text-white font-semibold border-l border-white/20">
-              +91
-            </div>
-          </div>
+          <div className="mt-10 flex items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl overflow-hidden shadow-xl transition-all focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-400/30">
+  <input
+    type="tel"
+    inputMode="numeric"
+    autoComplete="tel"
+    maxLength={10}
+    value={mobile}
+    onChange={(e) =>
+      setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))
+    }
+    placeholder="Enter mobile number"
+    className="flex-1 bg-transparent px-5 py-5 text-white placeholder:text-white/70 outline-none"
+  />
 
+  <div className="px-5 text-white font-semibold border-l border-white/20">
+    +91
+  </div>
+</div>
           {/* Continue Button */}
           <button
   onClick={handleContinue}
@@ -96,13 +92,9 @@ export default function Login() {
 
           {/* Google Button */}
           <button
-            onClick={handleGoogle}
-            className={`mt-6 w-full rounded-2xl py-5 text-lg font-semibold text-white transition-all duration-300 ${
-  mobile.length === 10
-    ? "hover:scale-[1.02] active:scale-95"
-    : "opacity-50 cursor-not-allowed"
-}`}
-          >
+  onClick={handleGoogle}
+  className="w-full flex items-center justify-center gap-3 rounded-2xl bg-white py-4 font-semibold text-gray-800 shadow-2xl transition hover:scale-[1.01] active:scale-95"
+>
             <FcGoogle size={24} />
             Continue with Google
           </button>
