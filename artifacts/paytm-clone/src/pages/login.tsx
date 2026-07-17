@@ -11,8 +11,15 @@ export default function Login() {
   console.log("Mobile:", mobile);
 
   // TODO:
-  // - Send OTP
-  // - Navigate to OTP screen
+  // Send OTP
+  // Navigate to OTP screen
+};
+
+const handleGoogle = () => {
+  console.log("Google Sign In");
+
+  // TODO:
+  // Google authentication
 };
 
   return (
@@ -97,12 +104,7 @@ export default function Login() {
 >
             <FcGoogle size={24} />
             Continue with Google
-            const handleGoogle = () => {
-  console.log("Google Sign In");
-
-  // TODO:
-  // Google authentication
-};
+  
           </button>
 
           {/* Sign Up */}
