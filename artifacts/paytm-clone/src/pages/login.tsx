@@ -23,13 +23,16 @@ const handleGoogle = () => {
 };
 
   return (
-   <div
-  className="min-h-screen bg-cover bg-top bg-no-repeat flex justify-center items-center relative"
-  style={{
-    backgroundImage: "url('/long-pg.png')",
-  }}
->      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/15" />
+   <div className="relative w-screen h-screen overflow-hidden">
+  {/* Background Image */}
+  <img
+    src="/long-pg.png"
+    alt="Background"
+    className="absolute inset-0 w-full h-full object-cover"
+  />
+
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/15" />
 
       {/* Language */}
       <div className="absolute top-8 right-8 z-10">
@@ -39,9 +42,11 @@ const handleGoogle = () => {
         </button>
       </div>
 
-      {/* Login Card */}
-      <div className="relative z-10 w-full max-w-md px-8 flex flex-col justify-end min-h-screen pb-10 md:pb-14">
-        <div>
+      /* Your Login Content */}
+  <div className="relative z-10 flex min-h-screen justify-center">
+    {/* Existing login card goes here */}
+  </div>
+</div>
           <h1 className="text-4xl font-bold text-white">
             Welcome back
           </h1>
