@@ -1,123 +1,57 @@
 import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { MdKeyboardArrowDown } from "react-icons/md";
 
 export default function Login() {
   const [mobile, setMobile] = useState("");
 
-  const handleContinue = () => {
-  if (mobile.length !== 10) return;
+    return (
+    <div className="min-h-screen bg-gradient-to-br from-cyan-400 via-purple-500 to-indigo-700 flex items-center p-6">
 
-  console.log("Mobile:", mobile);
+      <div className="w-full max-w-md rounded-3xl bg-white/20 backdrop-blur-xl border border-white/30 shadow-2*1 p-8">
 
-  // TODO:
-  // Send OTP
-  // Navigate to OTP screen
-};
-
-const handleGoogle = () => {
-  console.log("Google Sign In");
-
-  // TODO:
-  // Google authentication
-};
-
-  return (
-  <div className="relative w-screen h-screen overflow-hidden">
-
-    {/* Background */}
-    <img
-      src="/long-pg.png"
-      alt="Background"
-      className="absolute inset-0 w-full h-full object-contain bg-black"
-    />
-
-    {/* Overlay */}
-    <div className="absolute inset-0 bg-black/15" />
-
-    {/* Language */}
-    <div className="absolute top-8 right-8 z-20">
-      <button className="flex items-center gap-1 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 px-4 py-2 text-sm text-white">
-        English
-        <MdKeyboardArrowDown size={18} />
-      </button>
-    </div>
-
-    {/* Login Content */}
-    <div className="relative z-10 flex h-full items-end justify-center">
-
-      <div className="w-full max-w-md px-8 pb-12">
-
-        <h1 className="text-4xl font-bold text-white">
-          Welcome back
-        </h1>
-
-        <p className="mt-2 text-lg text-white/80">
-          Login to your account
-        </p>
-
-        <label className="mt-8 mb-3 block text-sm text-white/80">
-          Mobile Number
-        </label>
-
-        <div className="flex items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl overflow-hidden">
-          <input
-            type="tel"
-            inputMode="numeric"
-            maxLength={10}
-            value={mobile}
-            onChange={(e) =>
-              setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))
-            }
-            placeholder="Enter mobile number"
-            className="flex-1 bg-transparent px-5 py-5 text-white placeholder:text-white/70 outline-none"
-          />
-
-          <div className="border-l border-white/20 px-5 text-white font-semibold">
-            +91
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-white rounded-full mx-auto flex items-center justify-center shadow-lg">
+            <span className="text-3xl"></span>
           </div>
-        </div>
 
-        <button
-          onClick={handleContinue}
-          disabled={mobile.length !== 10}
-          className={`mt-6 w-full rounded-2xl py-5 text-lg font-semibold text-white ${
-            mobile.length === 10
-              ? "hover:scale-[1.02] active:scale-95"
-              : "opacity-50 cursor-not-allowed"
-          }`}
-          style={{
-            background: "linear-gradient(90deg,#00B5FF,#007BFF)",
-          }}
-        >
-          Continue
-        </button>
+            <h1 className="text-4xl font-bold text-white mt-5">
+              SMTECH
+              </h1>
+              
+              <p className="text-white/80 mt-2">
+              India's Smart Payments App
+                </p>
+          </div>
+        
+        <label className="text-white text-sm">
+          Mobile number
+          </label>        
+        
+          <input
+          type="tel"
+          maxLength={10}
+          value={mobile}
+          onChange={(e) => setMobile(e.target.value)}
+          placeholder="Enter mobile number"
+          className="w-full mt-2 rounded-xl bg-white/30 backdrop-blur-md p-4 text-white placeholder-white/70"
+           />
 
-        <div className="my-8 flex items-center">
-          <div className="h-px flex-1 bg-white/30"></div>
-          <span className="mx-4 text-white/70">OR</span>
-          <div className="h-px flex-1 bg-white/30"></div>
-        </div>
+           <button
+           className="w-full mt-6 rounded-xl bg-white text-indigo-700 font-bold py-4 hover:scale-105 transition"
+           >
+            Continue 
+           </button>
 
-        <button
-          onClick={handleGoogle}
-          className="w-full flex items-center justify-center gap-3 rounded-2xl bg-white py-4 font-semibold text-gray-800 shadow-xl"
-        >
-          <FcGoogle size={24} />
-          Continue with Google
-        </button>
+              <div className="text-center mt-6 text-white/80 text-sm">
+              100% Secure Payments
+              </div>
 
-        <p className="mt-8 text-center text-white/80">
-          Don't have an account?
-          <span className="ml-2 text-cyan-300 font-semibold cursor-pointer">
-            Sign Up
-          </span>
-        </p>
+              <div className="mt-8 text-center text-white/70 text-sm">
+              By continuing you agree to our
+              <br />
+              Terms & Privacy Policy
+              </div>
+              </div>
 
-      </div>
-
-    </div>
-
-    </div>
-  );
+            </div>
+ );
 }
