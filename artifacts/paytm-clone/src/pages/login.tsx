@@ -31,8 +31,8 @@ export default function Login() {
       </div>
 
       {/* Login Card */}
-      <div className="relative z-10 w-full max-w-md px-8 flex flex-col justify-end min-h-screen pb-14">
-        <div className="mt-40">
+      <div className="relative z-10 w-full max-w-md px-8 flex flex-col justify-end min-h-screen pb-10 md:pb-14">
+        <div>
           <h1 className="text-4xl font-bold text-white">
             Welcome back
           </h1>
@@ -45,8 +45,12 @@ export default function Login() {
           <div className="mt-10 flex items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl overflow-hidden shadow-xl focus-within:border-cyan-400">
             <input
               type="tel"
+inputMode="numeric"
+maxLength={10}
               value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
+              onChange={(e) =>
+  setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))
+}
               placeholder="Enter mobile number"
               className="flex-1 bg-transparent px-5 py-5 text-white placeholder:text-white/70 outline-none"
             />
@@ -58,15 +62,19 @@ export default function Login() {
 
           {/* Continue Button */}
           <button
-            onClick={handleContinue}
-            className="mt-6 w-full rounded-2xl py-5 text-lg font-semibold text-white transition-all duration-300 hover:scale-[1.02] active:scale-95"
-            style={{
-              background:
-                "linear-gradient(90deg,#00B5FF,#007BFF)",
-            }}
-          >
-            Continue
-          </button>
+  onClick={handleContinue}
+  disabled={mobile.length !== 10}
+  className={`mt-6 w-full rounded-2xl py-5 text-lg font-semibold text-white transition-all duration-300 ${
+    mobile.length === 10
+      ? "hover:scale-[1.02]"
+      : "opacity-50 cursor-not-allowed"
+  }`}
+  style={{
+    background: "linear-gradient(90deg,#00B5FF,#007BFF)",
+  }}
+>
+  Continue
+</button>
 
           {/* Divider */}
           <div className="flex items-center my-8">
@@ -80,7 +88,7 @@ export default function Login() {
           {/* Google Button */}
           <button
             onClick={handleGoogle}
-            className="w-full flex items-center justify-center gap-3 rounded-2xl bg-white py-4 font-semibold text-gray-800 shadow-2xl transition hover:scale-[1.01]"
+            className="w-full flex items-center justify-center gap-3 rounded-2xl bg-white py-4 font-semibold text-gray-800 shadow-2xl transition hover:scale-[1.01] active:scale-95"
           >
             <FcGoogle size={24} />
             Continue with Google
