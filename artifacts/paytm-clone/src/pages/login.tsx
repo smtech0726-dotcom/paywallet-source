@@ -14,13 +14,12 @@ export default function Login() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center items-center relative"
-      style={{
-        backgroundImage: "url('/images/login-bg.png')",
-      }}
-    >
-      {/* Dark Overlay */}
+   <div
+  className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center items-center relative"
+  style={{
+    backgroundImage: "url('/long-pg.png')",
+  }}
+>      {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/35" />
 
       {/* Language */}
