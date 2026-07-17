@@ -47,7 +47,7 @@ export default function Login() {
           <label className="mb-3 block text-sm text-white/80">
   Mobile Number
 </label>
-          <div className="mt-10 flex items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl overflow-hidden shadow-xl transition-all focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-400/30">
+          <div className="mt-3 flex items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl overflow-hidden shadow-xl transition-all focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-400/30">
   <input
     type="tel"
     inputMode="numeric"
@@ -71,7 +71,7 @@ export default function Login() {
   disabled={mobile.length !== 10}
   className={`mt-6 w-full rounded-2xl py-5 text-lg font-semibold text-white transition-all duration-300 ${
     mobile.length === 10
-      ? "hover:scale-[1.02]"
+  ? "hover:scale-[1.02] active:scale-95"
       : "opacity-50 cursor-not-allowed"
   }`}
   style={{
@@ -97,6 +97,12 @@ export default function Login() {
 >
             <FcGoogle size={24} />
             Continue with Google
+            const handleGoogle = () => {
+  console.log("Google Sign In");
+
+  // TODO:
+  // Google authentication
+};
           </button>
 
           {/* Sign Up */}
