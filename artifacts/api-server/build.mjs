@@ -1,17 +1,12 @@
 import { build } from "esbuild";
 
-try {
-  await build({
-    entryPoints: ["./src/index.ts"],
-    bundle: false,
-    platform: "node",
-    format: "esm",
-    target: ["node22"],
-    outfile: "./dist/index.mjs",
-    sourcemap: true,
-    logLevel: "info",
-  });
-} catch (error) {
-  console.error(error);
-  process.exit(1);
-}
+await build({
+  entryPoints: ["src/index.ts"],
+  bundle: true,
+  platform: "node",
+  format: "esm",
+  outfile: "dist/index.mjs",
+
+  packages: "external",
+  sourcemap: true
+});
