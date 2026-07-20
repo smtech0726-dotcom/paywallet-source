@@ -1,22 +1,13 @@
 import app from "./app";
 import { logger } from "./lib/logger";
 
-const rawPort = process.env.API_SERVER_PORT || process.env.PORT || "4000";
+const rawPort = process.env.PORT || "4000";
 const port = Number(rawPort);
 
 if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid port value: "${rawPort}"`);
 }
 
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
-app.listen(port, (err) => {
-  if (err) {
-    logger.error({ err }, "Error listening on port");
-    process.exit(1);
-  }
-
+app.listen(port, () => {
   logger.info({ port }, "Server listening");
 });
