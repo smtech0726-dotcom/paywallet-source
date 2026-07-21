@@ -20,6 +20,7 @@ export default function Login() {
         "http://localhost:4000/api/auth/request-otp",
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
