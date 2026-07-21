@@ -12,7 +12,11 @@ export default function Login() {
 
   const phone = mobile.trim();
 
-  if (!/^[0-9]{10}$/.test(phone)) {
+console.log("RAW MOBILE:", JSON.stringify(mobile));
+console.log("PHONE:", JSON.stringify(phone));
+console.log("LENGTH:", phone.length);
+
+if (!/^[0-9]{10}$/.test(phone)) {
     alert("Please enter a valid 10-digit mobile number.");
     return;
   }
