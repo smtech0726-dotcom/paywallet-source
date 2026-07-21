@@ -19,7 +19,7 @@ export function Profile() {
   });
 
   const handleLogout = () => {
-    logout.mutate({});
+    logout.mutate();
   };
 
   return (
