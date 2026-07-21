@@ -1,12 +1,14 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import pg from "pg";
-import * as schema from "./schema";
+import "dotenv/config";
+import app from "./app";
+import { logger } from "./lib/logger";
 
-const { Pool } = pg;
+const rawPort = process.env.PORT || "4000";
+const port = Number(rawPort);
 
-const databaseUrl = process.env.DATABASE_URL || "postgres://postgres:postgres@127.0.0.1:5432/postgres";
+if (Number.isNaN(port) || port <= 0) {
+  throw new Error(`Invalid port value: "${rawPort}"`);
+}
 
-export const pool = new Pool({ connectionString: databaseUrl });
-export const db = drizzle(pool, { schema });
-
-export * from "./schema";
+app.listen(port, () => {
+  logger.info({ port }, "Server listening");
+});
