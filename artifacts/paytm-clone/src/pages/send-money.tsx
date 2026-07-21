@@ -27,7 +27,9 @@ export function SendMoney() {
   const [note, setNote] = useState("");
 
   const { data: contacts, isLoading: contactsLoading } = useListContacts();
-  const contactsList = Array.isArray(contacts) ? contacts : (contacts?.items ?? contacts?.data ?? [] as any[]);
+  const contactsList: any[] = Array.isArray(contacts)
+  ? contacts
+  : [];  
   
   // Debounce phone lookup conceptually (if it's 10 digits, we trigger)
   const isCompletePhone = phoneSearch.replace(/\D/g, '').length >= 10;
