@@ -30,7 +30,7 @@ export function AddMoney() {
       onError: (error) => {
         toast({
           title: "Payment Failed",
-          description: error.error || "Could not add money",
+          description: error.message || "Could not add money",
           variant: "destructive",
         });
       }
