@@ -32,7 +32,9 @@ export function Recharge() {
   const [amount, setAmount] = useState("");
 
   const { data: billers, isLoading: billersLoading } = useListBillers({ category: activeCategory });
-  const billersList = Array.isArray(billers) ? billers : (billers?.items ?? billers?.data ?? [] as any[]);
+  const billersList: any[] = Array.isArray(billers)
+  ? billers
+  : [];
 
   const recharge = useCreateRecharge({
     mutation: {
