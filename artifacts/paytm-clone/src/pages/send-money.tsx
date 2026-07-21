@@ -34,7 +34,13 @@ export function SendMoney() {
   
   const { data: lookupResult, error: lookupError, isLoading: lookupLoading } = useLookupUser(
     { phone: phoneSearch.replace(/\D/g, '') },
-    { query: { enabled: isCompletePhone, retry: false } }
+    {
+  query: {
+    queryKey: [],
+    enabled: isCompletePhone,
+    retry: false
+  }
+}
   );
 
   const transfer = useCreateTransfer({
