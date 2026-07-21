@@ -10,11 +10,9 @@
     "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
     "types": [
-      "node",
-      "vite/client",
-      "react",
-      "react-dom"
-    ],
+  "node",
+  "vite/client"
+],
     "paths": {
       "@/*": ["./src/*"]
     }
