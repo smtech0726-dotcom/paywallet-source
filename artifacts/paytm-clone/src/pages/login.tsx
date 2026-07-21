@@ -6,12 +6,16 @@ export default function Login() {
   const [otp, setOtp] = useState("");
 
   const handleContinue = async () => {
-    const phone = mobile.trim();
 
-    if (!/^[0-9]{10}$/.test(phone)) {
-      alert("Please enter a valid 10-digit mobile number.");
-      return;
-    }
+  console.log("Mobile value:", mobile);
+  console.log("Length:", mobile.length);
+
+  const phone = mobile.trim();
+
+  if (!/^[0-9]{10}$/.test(phone)) {
+    alert("Please enter a valid 10-digit mobile number.");
+    return;
+  }
 
     try {
       setLoading(true);
@@ -81,9 +85,15 @@ export default function Login() {
           maxLength={10}
           value={mobile}
           onChange={(e) => {
-            const value = e.target.value.replace(/\D/g, "");
-            setMobile(value);
-          }}
+  let value = e.target.value.replace(/\D/g, "");
+
+  // remove India country code if entered
+  if (value.startsWith("91") && value.length > 10) {
+    value = value.slice(2);
+  }
+
+  setMobile(value.slice(0, 10));
+}}
           placeholder="Enter mobile number"
           className="w-full mt-2 rounded-xl bg-white/30 backdrop-blur-md p-4 text-white placeholder-white/70"
         />
