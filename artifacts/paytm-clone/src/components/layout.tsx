@@ -10,9 +10,10 @@ interface LayoutProps {
 export function AppLayout({ children }: LayoutProps) {
   const [location, setLocation] = useLocation();
   const { data: session, isLoading, error } = useGetCurrentSession({
-    query: {
-      retry: false,
-    }
+   query: {
+  queryKey: [],
+  retry: false
+}
   });
 
   useEffect(() => {
