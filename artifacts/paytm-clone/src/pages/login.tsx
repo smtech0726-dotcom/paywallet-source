@@ -6,8 +6,10 @@ export default function Login() {
   const [otp, setOtp] = useState("");
 
   const handleContinue = async () => {
-    if (mobile.length !== 10) {
-      alert("Enter valid 10 digit mobile number");
+    const phone = mobile.trim();
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      alert("Please enter a valid 10-digit mobile number.");
       return;
     }
 
@@ -22,7 +24,7 @@ export default function Login() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            phone: mobile,
+            phone,
           }),
         }
       );
@@ -69,30 +71,29 @@ export default function Login() {
 
         </div>
 
-
         <label className="text-white text-sm">
           Mobile number
         </label>
-
 
         <input
           type="tel"
           maxLength={10}
           value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, "");
+            setMobile(value);
+          }}
           placeholder="Enter mobile number"
           className="w-full mt-2 rounded-xl bg-white/30 backdrop-blur-md p-4 text-white placeholder-white/70"
         />
-
 
         <button
           onClick={handleContinue}
           disabled={loading}
           className="w-full mt-6 rounded-xl bg-white text-indigo-700 font-bold py-4 hover:scale-105 transition disabled:opacity-50"
         >
-          {loading ? "Sending OTP..." : "Continue"}
+          {loading ? "Sending OTP..." : "Send OTP"}
         </button>
-
 
         {otp && (
           <div className="mt-5 text-center text-white">
@@ -100,11 +101,9 @@ export default function Login() {
           </div>
         )}
 
-
         <div className="text-center mt-6 text-white/80 text-sm">
           100% Secure Payments
         </div>
-
 
         <div className="mt-8 text-center text-white/70 text-sm">
           By continuing you agree to our
